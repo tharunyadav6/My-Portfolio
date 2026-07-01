@@ -44,38 +44,12 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    let index = 0
-    let isDeleting = false
+    const interval = window.setInterval(() => {
+      setRoleIndex((prevRole) => (prevRole + 1) % roles.length)
+    }, 2200)
 
-    const typingInterval = setInterval(() => {
-      const currentRole = roles[roleIndex]
-      setDisplayText((prev) => {
-        if (!isDeleting && index < currentRole.length) {
-          index += 1
-          return currentRole.slice(0, index)
-        }
-
-        if (isDeleting && index > 0) {
-          index -= 1
-          return currentRole.slice(0, index)
-        }
-
-        if (!isDeleting && index === currentRole.length) {
-          isDeleting = true
-          return currentRole
-        }
-
-        if (isDeleting && index === 0) {
-          isDeleting = false
-          setRoleIndex((prevRole) => (prevRole + 1) % roles.length)
-        }
-
-        return prev
-      })
-    }, 90)
-
-    return () => clearInterval(typingInterval)
-  }, [roleIndex, roles])
+    return () => window.clearInterval(interval)
+  }, [roles])
 
   return (
     <div className="overflow-x-hidden bg-slate-50 text-slate-800 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
@@ -96,7 +70,7 @@ const App = () => {
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.16),_transparent_30%)]" />
         <div className="hero-ring left-[-6rem] top-10 h-48 w-48" />
         <div className="hero-ring bottom-[-4rem] right-[-4rem] h-64 w-64" />
-        <nav className="section-shell flex flex-wrap items-center justify-between gap-4 py-6">
+        <nav className="section-shell flex flex-wrap items-center justify-between gap-4 py-4">
           <a href="#home" className="text-lg font-semibold tracking-[0.25em] text-slate-900 dark:text-white">
             THARUN<span className="text-cyan-600">/DEV</span>
           </a>
@@ -112,22 +86,25 @@ const App = () => {
           <ThemeToggle darkMode={darkMode} onToggle={() => setDarkMode((value) => !value)} />
         </nav>
 
-        <div className="section-shell grid items-center gap-10 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
+        <div className="section-shell grid items-center gap-10 py-8 lg:grid-cols-[1.1fr_0.9fr] lg:py-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-cyan-600">
-              Professional Frontend Developer
+            <p className="inline-flex items-center rounded-full border border-cyan-500/20 bg-cyan-500/10 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] text-cyan-700 dark:text-cyan-300">
+              Available for internships and freelance projects
             </p>
             <h1 className="mt-5 text-3xl font-semibold leading-tight text-slate-900 dark:text-white sm:text-4xl lg:text-6xl">
               Hello, I’m <span className="text-cyan-600">Tharun</span>.
             </h1>
-            <p className="mt-4 text-xl font-medium text-cyan-600">{displayText || 'Frontend Developer'}</p>
+            <p className="mt-4 text-lg font-semibold leading-7 text-slate-700 dark:text-slate-200">
+              Fresher Frontend Developer focused on React.js, responsive design, and modern user experiences.
+            </p>
+            <p className="mt-4 text-xl font-medium text-cyan-600">{roles[roleIndex] || 'Frontend Developer'}</p>
             <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
-              I design and build refined, responsive web experiences with React, Tailwind CSS, and a sharp eye for performance, motion, and usability.
+              I turn ideas into polished, high-performing web experiences with a strong eye for detail and clean code.
             </p>
 
             <div className="mt-8 flex flex-col flex-wrap gap-4 sm:flex-row">
